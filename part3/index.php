@@ -1,37 +1,3 @@
-<?php
-// Initialize variables to avoid "undefined" errors before form submission
-$message = "";
-
-if (isset($_POST['submit'])) {
-    // 1. Define the Menu and Prices
-    $menu_items = [
-        "Burger" => 50,
-        "Fries" => 25,
-        "Steak" => 150
-    ];
-
-    // 2. Get inputs
-    $order = $_POST['order'];
-    $quantity = $_POST['quantity'];
-    $cash = $_POST['cash'];
-
-    // 3. Calculate Costs
-    $price = $menu_items[$order];
-    $total_cost = $price * $quantity;
-    $change = $cash - $total_cost;
-
-    // 4. Logic: Do they have enough money?
-    if ($cash >= $total_cost) {
-        $message = "
-        <h2>The total cost is " . $total_cost . "</h2>
-        <h2>Your change is " . $change . "</h2>
-        <h3>Thanks for your order!</h3>";
-    } else {
-        $message = "<h2 style='color:red'>Sorry, balance not enough.</h2>";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,16 +26,14 @@ if (isset($_POST['submit'])) {
         </tr>
         <tr>
             <td>Fries</td>
-            <td>25</td>
-        </tr>
+            <td>75</td> </tr>
         <tr>
             <td>Steak</td>
             <td>150</td>
         </tr>
     </table>
 
-    <form method="POST" action="">
-        <label>Select an Order:</label>
+    <form method="POST" action="handleform.php"> <label>Select an Order:</label>
         <select name="order">
             <option value="Burger">Burger</option>
             <option value="Fries">Fries</option>
@@ -90,8 +54,6 @@ if (isset($_POST['submit'])) {
         </div>
     </form>
 </div>
-
-<?php echo $message; ?>
 
 </body>
 </html>

@@ -1,29 +1,23 @@
 <?php
 session_start();
 
-$message = ""; // Variable to hold the error message
+$message = ""; 
 
-// 1. Handle Logout Logic
 if (isset($_POST['logout'])) {
-    session_unset();    // Clear variables
-    session_destroy();  // Kill session
+    session_unset();    
+    session_destroy();  
 }
 
-// 2. Handle Login Logic
 if (isset($_POST['login'])) {
     
-    // CHECK: Is someone already logged in?
     if (isset($_SESSION['username'])) {
-        // If yes, show the error message from your screenshot
         $message = $_SESSION['username'] . " is already logged in. Wait for him to logout to first";
     } else {
-        // If no one is logged in, log the new user in
         $username = $_POST['username'];
         $password = $_POST['password'];
 
         if (!empty($username) && !empty($password)) {
             $_SESSION['username'] = $username;
-            // Create the hash to match the screenshot
             $_SESSION['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
         }
     }
@@ -62,17 +56,14 @@ if (isset($_POST['login'])) {
     <br>
 
     <?php
-    // Display the error message if it exists
     if ($message != "") {
         echo $message;
     }
 
-    // Display User Info if logged in
     if (isset($_SESSION['username'])) {
         echo "<h2>User logged in: " . $_SESSION['username'] . "</h2>";
         
         echo "<h2>Password:</h2>";
-        // Display the long hashed string
         echo "<h3>" . $_SESSION['password_hash'] . "</h3>";
     }
     ?>
