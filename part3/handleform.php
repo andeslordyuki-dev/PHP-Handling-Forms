@@ -1,5 +1,4 @@
 <?php
-// Initialize variables
 $order_name = "";
 $quantity = 0;
 $cash_paid = 0;
@@ -23,7 +22,7 @@ if (isset($_POST['submit'])) {
     $change = $cash_paid - $total_cost;
 
     if ($cash_paid < $total_cost) {
-        $message = "Sorry, cash is not enough.";
+        $message = "Sorry, balance not enough.";
     }
 } else {
     header('Location: index.php'); 
@@ -43,22 +42,22 @@ if (isset($_POST['submit'])) {
             padding: 20px;
         }
         .receipt-box { 
-            border: 4px dotted black; /* Thick dotted border */
+            border: 4px dotted black; 
             padding: 20px; 
-            width: 90%;   /* Wide box like the screenshot */
-            margin: 0 auto; /* Centered horizontally */
+            width: 90%;   
+            margin: 0 auto; 
         }
         h1 { 
-            text-align: center; /* RECEIPT is centered */
-            font-size: 60px;    /* Huge title */
+            text-align: center; 
+            font-size: 60px;    
             font-weight: bold;
             margin-top: 10px;
             margin-bottom: 40px;
         }
         .line-item {
-            font-size: 40px;    /* Huge text */
+            font-size: 40px;    
             font-weight: bold;
-            text-align: left;   /* Left aligned */
+            text-align: left;   
             margin-bottom: 20px;
             margin-left: 10px;
         }
@@ -66,7 +65,7 @@ if (isset($_POST['submit'])) {
             font-size: 35px;
             font-weight: bold;
             font-style: italic;
-            text-align: left;   /* Left aligned */
+            text-align: left;   
             margin-top: 40px;
             margin-left: 10px;
         }
@@ -74,12 +73,13 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 
-    <div class="receipt-box">
-        <h1>RECEIPT</h1>
-        
-        <?php if ($message): ?>
-            <h2 style="color:red; text-align:center; font-size: 40px;"><?php echo $message; ?></h2>
-        <?php else: ?>
+    <?php if ($message): ?>
+        <div class="receipt-box" style="border-color: red;">
+            <div class="line-item"><?php echo $message; ?></div>
+        </div>
+    <?php else: ?>
+        <div class="receipt-box">
+            <h1>RECEIPT</h1>
             <div class="line-item">Total Price: <?php echo $total_cost; ?></div>
             <div class="line-item">You Paid: <?php echo $cash_paid; ?></div>
             <div class="line-item">CHANGE: <?php echo $change; ?></div>
@@ -90,8 +90,8 @@ if (isset($_POST['submit'])) {
                 echo date("m/d/Y h:i:s a"); 
                 ?>
             </div>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 
 </body>
 </html>
