@@ -1,5 +1,5 @@
 <?php
-// Initialize variables to avoid "undefined" errors if accessed directly
+// Initialize variables
 $order_name = "";
 $quantity = 0;
 $cash_paid = 0;
@@ -7,32 +7,26 @@ $total_cost = 0;
 $change = 0;
 $message = "";
 
-// Check if the form was submitted
 if (isset($_POST['submit'])) {
-    // 1. Define the Menu and Prices (MUST be defined here as well)
     $menu_items = [
         "Burger" => 50,
-        "Fries" => 75, // Updated price for Fries
+        "Fries" => 75,
         "Steak" => 150
     ];
 
-    // 2. Get inputs from the POST request
     $order_name = $_POST['order'];
     $quantity = $_POST['quantity'];
     $cash_paid = $_POST['cash'];
 
-    // 3. Calculate Costs
     $price_per_item = $menu_items[$order_name];
     $total_cost = $price_per_item * $quantity;
     $change = $cash_paid - $total_cost;
 
-    // 4. Check for sufficient cash
     if ($cash_paid < $total_cost) {
         $message = "Sorry, cash is not enough.";
     }
 } else {
-    // If someone tries to access handleform.php directly without submitting the form
-    header('Location: index.php'); // Redirect back to the order form
+    header('Location: index.php'); 
     exit();
 }
 ?>
@@ -43,9 +37,39 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <title>Receipt</title>
     <style>
-        body { font-family: "Times New Roman", serif; padding: 20px; font-size: 24px; text-align: center; }
-        .receipt-box { border: 2px dotted black; padding: 30px; display: inline-block; margin-top: 50px; }
-        h1, h2, h3 { margin: 10px 0; }
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            margin: 0;
+            padding: 20px;
+        }
+        .receipt-box { 
+            border: 4px dotted black; /* Thick dotted border */
+            padding: 20px; 
+            width: 90%;   /* Wide box like the screenshot */
+            margin: 0 auto; /* Centered horizontally */
+        }
+        h1 { 
+            text-align: center; /* RECEIPT is centered */
+            font-size: 60px;    /* Huge title */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+        .line-item {
+            font-size: 40px;    /* Huge text */
+            font-weight: bold;
+            text-align: left;   /* Left aligned */
+            margin-bottom: 20px;
+            margin-left: 10px;
+        }
+        .date-time {
+            font-size: 35px;
+            font-weight: bold;
+            font-style: italic;
+            text-align: left;   /* Left aligned */
+            margin-top: 40px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -53,17 +77,20 @@ if (isset($_POST['submit'])) {
     <div class="receipt-box">
         <h1>RECEIPT</h1>
         
-        <?php if ($message): // If there's an error message for insufficient cash ?>
-            <h2 style="color:red;"><?php echo $message; ?></h2>
-            <p>You need <?php echo $total_cost - $cash_paid; ?> more.</p>
-            <p><a href="index.php">Go back to order</a></p>
-        <?php else: // Display the full receipt ?>
-            <h2>Total Price: <?php echo $total_cost; ?></h2>
-            <h2>You Paid: <?php echo $cash_paid; ?></h2>
-            <h2>CHANGE: <?php echo $change; ?></h2>
+        <?php if ($message): ?>
+            <h2 style="color:red; text-align:center; font-size: 40px;"><?php echo $message; ?></h2>
+        <?php else: ?>
+            <div class="line-item">Total Price: <?php echo $total_cost; ?></div>
+            <div class="line-item">You Paid: <?php echo $cash_paid; ?></div>
+            <div class="line-item">CHANGE: <?php echo $change; ?></div>
             
-            <br>
-            <p><?php echo date("m/d/Y h:i:s a"); ?></p> <?php endif; ?>
+            <div class="date-time">
+                <?php 
+                date_default_timezone_set('Asia/Manila'); 
+                echo date("m/d/Y h:i:s a"); 
+                ?>
+            </div>
+        <?php endif; ?>
     </div>
 
 </body>
